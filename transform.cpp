@@ -30,7 +30,12 @@ const vec3 & Transform::translate(vec3 translation, const Transform &relativeTo)
     return m_position += relativeTo.orientation() * translation;
 }
 
-vec3 Transform::toWorldSpace(vec3 v)
-{
-    return m_position + (m_orientation * v);
+glm::mat4 Transform::getWorldTransformationMatrix() const{
+    glm::mat4 transformationMatrix = glm::translate(glm::toMat4(m_orientation), m_position);
+
+    if (m_parent != nullptr) {
+        transformationMatrix = m_parent->getWorldTransformationMatrix() * transformationMatrix;
+    }
+
+    return transformationMatrix;
 }

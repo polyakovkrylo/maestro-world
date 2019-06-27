@@ -37,6 +37,8 @@ public:
     inline void setParent(Transform *parent) {m_parent = parent;}
     inline Transform const * parent() const {return m_parent;}
 
+    glm::mat4 getWorldTransformationMatrix() const;
+
 private:
     glm::vec3 m_position;
     glm::quat m_orientation;
