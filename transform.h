@@ -18,6 +18,8 @@ public:
 
     void rotate(glm::vec3 axis, float angle, const Transform &relativeTo);
     inline void rotate(glm::vec3 axis, float angle) {m_orientation = glm::rotate(m_orientation, angle, axis);}
+    inline void rotate(glm::vec3 euler, const Transform &relativeTo) {rotateAround(relativeTo.position(), glm::quat(euler));}
+    inline void rotate(glm::vec3 euler) {m_orientation *= glm::quat(euler);}
     void rotateAround(glm::vec3 point, glm::quat quaternion);
 
     const glm::vec3 & translate(glm::vec3 translation, const Transform &relativeTo);
