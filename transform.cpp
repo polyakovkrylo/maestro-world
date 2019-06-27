@@ -24,12 +24,13 @@ void Transform::rotateAround(vec3 point, quat quaternion)
     m_orientation *= quaternion;
 }
 
-const vec3 & Transform::translate(glm::vec3 translation, const Transform &relativeTo)
+
+const vec3 & Transform::translate(vec3 translation, const Transform &relativeTo)
 {
     return m_position += relativeTo.orientation() * translation;
 }
 
-glm::vec3 Transform::toWorldSpace(glm::vec3 v)
+vec3 Transform::toWorldSpace(vec3 v)
 {
     return m_position + (m_orientation * v);
 }
