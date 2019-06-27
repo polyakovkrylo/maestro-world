@@ -11,7 +11,7 @@ Transform::Transform(vec3 position, quat orientation) :
 
 void Transform::rotate(vec3 axis, float angle, const Transform &relativeTo)
 {
-    quat q = glm::rotate(quat(1.0f, 0.0f, 0.0f, 0.0f),
+    quat q = glm::rotate(IDENTITY_QUATERNION,
                          angle,
                          relativeTo.orientation() * axis);
 
