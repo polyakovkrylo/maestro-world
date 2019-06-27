@@ -1,6 +1,9 @@
 #ifndef TRANSFORM_H
 #define TRANSFORM_H
 
+#include <memory>
+#include <vector>
+
 #define GLM_FORCE_RADIANS
 #define GLM_FORCE_DEPTH_ZERO_TO_ONE
 #include <glm/glm.hpp>
@@ -28,11 +31,19 @@ public:
     inline const glm::vec3 & position() const {return m_position;}
     inline const glm::quat & orientation() const {return m_orientation;}
 
-    glm::vec3 toWorldSpace(glm::vec3 v);
+    inline void addChild(std::unique_ptr<Transform> &child)  {child->setParent(this);m_children.push_back(std::move(child));}
+    inline const std::vector<std::unique_ptr<Transform>> & children() const {return m_children;}
+
+    inline void setParent(Transform *parent) {m_parent = parent;}
+    inline Transform const * parent() const {return m_parent;}
 
 private:
     glm::vec3 m_position;
     glm::quat m_orientation;
+
+    Transform *m_parent = nullptr;
+
+    std::vector<std::unique_ptr<Transform>> m_children;
 };
 
 #endif // TRANSFORM_H
