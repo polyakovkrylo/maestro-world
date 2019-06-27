@@ -11,12 +11,18 @@ Transform::Transform(vec3 position, quat orientation) :
 
 void Transform::rotate(vec3 axis, float angle, const Transform &relativeTo)
 {
-    axis = relativeTo.orientation() * axis;
-    quat q = glm::rotate(quat(1.0f, 0.0f, 0.0f, 0.0f), angle, axis);
-    m_position = relativeTo.position() + q * (m_position - relativeTo.position());
-    m_orientation *= q;
+    quat q = glm::rotate(quat(1.0f, 0.0f, 0.0f, 0.0f),
+                         angle,
+                         relativeTo.orientation() * axis);
+
+    rotateAround(relativeTo.position(), q);
 }
 
+void Transform::rotateAround(vec3 point, quat quaternion)
+{
+    m_position = point + quaternion * (m_position - point);
+    m_orientation *= quaternion;
+}
 
 const vec3 & Transform::translate(glm::vec3 translation, const Transform &relativeTo)
 {
